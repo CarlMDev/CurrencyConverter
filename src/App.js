@@ -100,8 +100,17 @@ class App extends Component {
   }
 
   handleSourceAmountChange = (e) => {
-    this.setState({targetAmount: this.convertAmount(e.target.value, this.state.exchangeRate) })
-    this.setState({sourceAmount: e.target.value })
+    const reGex = /^[0-9\b]+$/
+
+    // Ensure only numeric values are allowed in text box
+    if(e.target.value === '' || reGex.test(e.target.value)) {
+      this.setState({targetAmount: this.convertAmount(e.target.value, this.state.exchangeRate) })
+      this.setState({sourceAmount: e.target.value })
+    }
+    else {
+
+    }
+
   }
   // Retrieve exchange rated provided by the API.
   // This API was chosen for this project because unlimited API calls can be made at no charge.
@@ -180,8 +189,7 @@ class App extends Component {
               this.state.targetSelectedCurrency } 
           </h3>
           <h2>2) Enter source currency amount to convert</h2>
-          <input type="text" name="source-amount" onChange={ this.handleSourceAmountChange } placeholder={ this.state.sourceSelectedCurrency !== ''
-          && this.state.sourceSelectedCurrency !== '-- CHOOSE --' ?
+          <input type="text" name="source-amount" onChange={ this.handleSourceAmountChange } placeholder={ this.state.sourceSelectedCurrency !== '' ?
             'Amount in ' + this.state.sourceSelectedCurrency : 'Select currencies first' }/> 
           <h3>Target currency Amount:</h3> 
           <h3>{ this.roundCurrency(this.state.targetAmount) +  ' ' + this.state.targetSelectedCurrency }</h3>
