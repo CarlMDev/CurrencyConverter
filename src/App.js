@@ -14,6 +14,8 @@ class App extends Component {
       exchangeRate: 1,
       sourceSelectedCurrencyValue: 0,
       targetSelectedCurrencyValue: 0,
+      sourceAmount: 0,
+      targetAmount:0,
     }
   }
 
@@ -21,28 +23,42 @@ class App extends Component {
   // This will update the UI based on the source currency chosen by the user
   handleSourceChange = (e) => {
 
-    this.setState({ sourceSelectedCurrency: e.target.value })
+    let er = 0
+
     this.setState({ sourceSelectedCurrencyValue: this.state.currencies[e.target.value] })
+
+    // to avoid showing choose as currency
+    if(e.target.value === '-- CHOOSE --'){
+      this.setState({ sourceSelectedCurrency: '' })
+    }
+    else {
+      this.setState({ sourceSelectedCurrency: e.target.value })
+    }
 
     // Because we use the rates provided by the European Central Bank (ECB), we need to make a few calculations
     // if source and target currencies are not Euros
 
     if(e.target.value !== 'EUR' && this.state.targetSelectedCurrency !== 'EUR'  && this.state.targetSelectedCurrency !== '') {
-      this.setState({exchangeRate : this.roundCurrency(this.state.targetSelectedCurrencyValue 
-        /  this.state.currencies[e.target.value])})
-      
+     // this.setState({exchangeRate : this.roundCurrency(this.state.targetSelectedCurrencyValue  /  this.state.currencies[e.target.value])})
+      er = this.roundCurrency(this.state.targetSelectedCurrencyValue  /  this.state.currencies[e.target.value])
     }
     else if(e.target.value === 'EUR' && this.state.targetSelectedCurrency !== 'EUR'){
-      this.setState({exchangeRate: this.roundCurrency(this.state.targetSelectedCurrencyValue)})
+      //this.setState({exchangeRate: this.roundCurrency(this.state.targetSelectedCurrencyValue)})
+      er = this.roundCurrency(this.state.targetSelectedCurrencyValue)
       this.setState({sourceSelectedCurrencyValue:  this.roundCurrency(1)})
     }
     else if(e.target.value !== 'EUR' && this.state.targetSelectedCurrency === 'EUR'){
-      this.setState({exchangeRate : this.roundCurrency(1 / this.state.currencies[e.target.value])})
+     // this.setState({exchangeRate : this.roundCurrency(1 / this.state.currencies[e.target.value])})
+     er = this.roundCurrency(1 / this.state.currencies[e.target.value])
     }
     else if(e.target.value === 'EUR' && this.state.targetSelectedCurrency === 'EUR'){
-      this.setState({exchangeRate : this.roundCurrency(1)})
+      // this.setState({exchangeRate : this.roundCurrency(1)})
+      er = 1
       this.setState({sourceSelectedCurrencyValue: this.roundCurrency(1)})
     }
+
+    this.setState({exchangeRate: er})
+    this.setState({targetAmount: er * this.state.sourceAmount})
     
   }
 
@@ -50,31 +66,43 @@ class App extends Component {
   // This will update the UI based on the target currency chosen by the user
   handleTargetChange = (e) => {
 
+    let er = 0
+
     this.setState({ targetSelectedCurrency: e.target.value })
     this.setState({ targetSelectedCurrencyValue: this.state.currencies[e.target.value] })
 
     this.setState({ sourceSelectedCurrencyValue: this.state.currencies[this.state.sourceSelectedCurrency] })
 
     if(this.state.sourceSelectedCurrency !== 'EUR' &&  e.target.value !== 'EUR' && this.state.targetSelectedCurrency !== '') {
-      this.setState({exchangeRate :this.roundCurrency(this.state.currencies[e.target.value] / this.state.sourceSelectedCurrencyValue)})
+      //this.setState({exchangeRate: this.roundCurrency(this.state.currencies[e.target.value] / this.state.sourceSelectedCurrencyValue)})
+      er = this.roundCurrency(this.state.currencies[e.target.value] / this.state.sourceSelectedCurrencyValue)
     }
 
     else if(e.target.value === 'EUR' && this.state.sourceSelectedCurrency !== 'EUR' ){
-      this.setState({exchangeRate: this.roundCurrency(1 / this.state.currencies[this.state.sourceSelectedCurrency])})
+      //this.setState({exchangeRate: this.roundCurrency(1 / this.state.currencies[this.state.sourceSelectedCurrency])})
+      er = this.roundCurrency(1 / this.state.currencies[this.state.sourceSelectedCurrency])
       this.setState({targetSelectedCurrencyValue:  this.roundCurrency(1)})
     }
 
     else if(e.target.value !== 'EUR' && this.state.sourceSelectedCurrency === 'EUR'){
-      this.setState({exchangeRate : this.roundCurrency(this.state.currencies[e.target.value])})
+     // this.setState({exchangeRate : this.roundCurrency(this.state.currencies[e.target.value])})
+     er = this.roundCurrency(this.state.currencies[e.target.value])
     }
 
     else if(e.target.value === 'EUR' && this.state.sourceSelectedCurrency === 'EUR'){
-      this.setState({exchangeRate:  this.roundCurrency(1)})
+      //this.setState({exchangeRate:  this.roundCurrency(1)})
+      er = 1
       this.setState({targetSelectedCurrencyValue:  this.roundCurrency(1)})
     }
-
+    
+    this.setState({exchangeRate: er})
+    this.setState({targetAmount: er * this.state.sourceAmount})
   }
 
+  handleSourceAmountChange = (e) => {
+    this.setState({targetAmount: this.convertAmount(e.target.value, this.state.exchangeRate) })
+    this.setState({sourceAmount: e.target.value })
+  }
   // Retrieve exchange rated provided by the API.
   // This API was chosen for this project because unlimited API calls can be made at no charge.
   componentDidMount() {
@@ -108,6 +136,8 @@ class App extends Component {
       return (
         <div className="App">
           <h1>Currency Exchange</h1>
+          <br />
+          <h2>1) Select currencies</h2>
           <label>Source Currency: {' '}
           </label>
 
@@ -145,10 +175,16 @@ class App extends Component {
           <br/>
           <br/>
           
-          <label>
+          <h3>
             1 {' ' + this.state.sourceSelectedCurrency }  = { this.state.exchangeRate + ' ' + 
               this.state.targetSelectedCurrency } 
-          </label>
+          </h3>
+          <h2>2) Enter source currency amount to convert</h2>
+          <input type="text" name="source-amount" onChange={ this.handleSourceAmountChange } placeholder={ this.state.sourceSelectedCurrency !== ''
+          && this.state.sourceSelectedCurrency !== '-- CHOOSE --' ?
+            'Amount in ' + this.state.sourceSelectedCurrency : 'Select currencies first' }/> 
+          <h3>Target currency Amount:</h3> 
+          <h3>{ this.roundCurrency(this.state.targetAmount) +  ' ' + this.state.targetSelectedCurrency }</h3>
 
         </div>
       );
@@ -158,6 +194,10 @@ class App extends Component {
   // We want to make sure that exchange rates displayed are rounded to 2 decimal places
   roundCurrency(amount) {
     return Math.round(amount * 100) / 100
+  }
+
+  convertAmount(amount, exchange) {
+    return amount * exchange
   }
 
 }
