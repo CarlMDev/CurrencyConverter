@@ -32,14 +32,15 @@ class CurrencyInput extends Component {
       }
 
     render() {
-        let { error, amount }= this.state
+        let { error }= this.state
         return (
-            <div>
+            <div className="container">
                 <input type="text" name="source-amount" 
                     onChange={ this.handleSourceAmountChange } 
                     placeholder={ this.props.sourceCurrency !== '-- CHOOSE --' && this.props.sourceCurrency !== ''
                         ? 'Amount in ' + this.props.sourceCurrency :
-                        'Select currencies first' }/>
+                        'Select currencies first' }
+                        className="form-control" />
                 <p style={{color: 'red'}}>{error}</p>
             </div>
         )

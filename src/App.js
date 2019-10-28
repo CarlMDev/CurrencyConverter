@@ -1,9 +1,8 @@
 import React, { Component } from 'react'
-import './App.css';
 import CurrencySelector from './components/CurrencySelector'
 import ExchangeRateDisplay from './components/ExchangeRateDisplay'
 import CurrencyInput from './components/CurrencyInput'
-import ConvertedAmountDisplay from './components/ConvertedAmountDisplay';
+import ConvertedAmountDisplay from './components/ConvertedAmountDisplay'
 
 class App extends Component {
   
@@ -76,7 +75,7 @@ class App extends Component {
 
     else {
       return (
-        <div className="App">
+        <div className="container">
           <h1>Currency Exchange</h1>
           <br />
           <h2>1) Select currencies</h2>
@@ -102,15 +101,21 @@ class App extends Component {
             sourceCode={ sourceCode }
             targetCode={ targetCode }
             computedRate={ computedRate } />
+          
+          <br />
 
           <h2>2) Enter source currency amount to convert</h2>
+          
           <CurrencyInput
             sourceCurrency={ sourceCode } 
             onAmountInputChange= { this.handleInputAmountChange }/>
+          
           <h3>Converted amount:</h3> 
+          
           <ConvertedAmountDisplay
             amount= { this.roundCurrency(this.convertAmount(amountToConvert, computedRate)) } 
             currencyCode= { targetCode }/>
+        
         </div>
       );
     }

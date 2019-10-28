@@ -34,12 +34,13 @@ class CurrencySelector extends Component {
 
         //this.setState(currencyList, this.props.list)
         return (
-            <div>
+            <div className="container">
                 <label>{ this.state.selectorTitle + ' '}
                 </label>
                 <select id={ this.props.type }
                     value={ this.state.selectedCurrencyCode }
                     onChange={ this.handleSelectorChange }
+                    className="form-control"
                 >
                     <option key="">-- CHOOSE --</option>  
                     <option key="EUR">EUR</option>  
