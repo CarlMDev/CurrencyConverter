@@ -7,7 +7,7 @@ class ExchangeRateDisplay extends Component {
         return(
             <div>
                 <h3>Exchange Rate:</h3> <br />
-                <table style={{tablelayout: 'fixed'}, {width: '100%'}}>
+                <table style={{tablelayout: 'fixed', width: '100%'}}>
                     <tr>
                         <td></td>
                         <td>
