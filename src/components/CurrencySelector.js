@@ -9,16 +9,17 @@ class CurrencySelector extends Component {
         this.state = {
             selectorTitle: this.props.selectorTitle,
             currencyList: this.props.list,
-            selectedCurrencyCode: '',
-            selectedCurrencyValue: 0,
+            selectedCurrencyCode: ''
         }
     }
 
     handleSelectorChange = (e) => {
-        
-        this.props.onCurrencyCodeChange(e.target.value, this.state.currencyList[e.target.value])
+        const selectedIndex = e.target.options.selectedIndex
+        const currencyKey = e.target.options[selectedIndex].getAttribute('data-key')
 
-        this.setState({ selectedCurrencyValue: this.state.currencyList[e.target.value] })
+        this.props.onCurrencyCodeChange(currencyKey)
+
+        this.setState({ selectedCurrencyValue: this.state.currencyList[e.target.key] })
 
         // to avoid showing "choose" as currency
         if(e.target.value === '-- CHOOSE --'){
@@ -43,10 +44,9 @@ class CurrencySelector extends Component {
                     className="form-control"
                 >
                     <option key="">-- CHOOSE --</option>  
-                    <option key="EUR">EUR</option>  
-                    { Object.keys(this.state.currencyList).map(currency => (
-                    <option key={currency}>
-                        { currency }
+                    { Object.keys(this.state.currencyList).map(key => (
+                    <option key={key} data-key={key}>
+                        { this.state.currencyList[key] }
                     </option>
                     ))};
               </select>

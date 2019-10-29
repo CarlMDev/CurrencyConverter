@@ -14,28 +14,31 @@ class App extends Component {
 
     this.state = {
       currencies: [],
+      labels: require('./data/labels.json'),
       isLoaded: false,
       type: 'source',
       sourceCode: '',
       targetCode: '',
       sourceRate: 0,
       targetRate: 0,
-      amountToConvert: 0
+      amountToConvert: 0,
     }
+
+    
   }
 
   // Handles source currency change event.
   // This will update the UI based on the source currency chosen by the user
-  handleSourceChange = (code, rate) => {
-    console.log("Source Change Currency: " + code + " rate: " + rate)
-    this.setState({type:'source', sourceCode: code, sourceRate: rate })  
+  handleSourceChange = (code) => {
+    console.log("Source Change Currency: " + code + " rate: " + this.state.currencies[code])
+    this.setState({type:'source', sourceCode: code, sourceRate: this.state.currencies[code] })  
   }
 
   // Handles target currency change event.
   // This will update the UI based on the target currency chosen by the user
-  handleTargetChange = (code, rate) => {
+  handleTargetChange = (code) => {
     // console.log("Target Change Currency: " + code + " rate: " + rate)
-    this.setState({type:'target', targetCode: code, targetRate: rate })
+    this.setState({type:'target', targetCode: code, targetRate: this.state.currencies[code] })
   }
 
   handleInputAmountChange = (amount) => {
@@ -59,7 +62,7 @@ class App extends Component {
 
   render() {
 
-    var { isLoaded, currencies, type, sourceCode, targetCode, amountToConvert } = this.state
+    var { isLoaded, currencies, type, sourceCode, targetCode, amountToConvert, labels } = this.state
 
     var computedRate = this.computeRate()
 
@@ -82,7 +85,7 @@ class App extends Component {
 
           <CurrencySelector
             type={ type }
-            list={ currencies } 
+            list={ labels } 
             selectorTitle="Source Currency" 
             onCurrencyCodeChange= { this.handleSourceChange } />
           
@@ -91,7 +94,7 @@ class App extends Component {
 
           <CurrencySelector
             type="target"
-            list={ currencies } 
+            list={ labels } 
             selectorTitle="Target Currency" 
             onCurrencyCodeChange= { this.handleTargetChange } />
           
