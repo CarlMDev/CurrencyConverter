@@ -1,8 +1,8 @@
-import React, { Component } from "react";
+import React, { Component } from "react"
 
 class CurrencyInput extends Component {
   constructor(props) {
-    super(props);
+    super(props)
 
     this.state = {
       error: "",
@@ -11,20 +11,20 @@ class CurrencyInput extends Component {
   }
 
   handleSourceAmountChange = e => {
-    const reGex = /^[0-9\b]+$/;
+    const reGex = /^[0-9\b]+$/
 
     if (isNaN(e.target.value)) {
       this.setState({ error: "Amount needs to be numeric only" });
-      this.props.onAmountInputChange(0);
+      this.props.onAmountInputChange(0)
     }
 
     // Ensure only numeric values are allowed in text box
     else if (reGex.test(e.target.value)) {
       this.props.onAmountInputChange(e.target.value);
-      this.setState({ error: "" });
+      this.setState({ error: "" })
     } else {
       this.props.onAmountInputChange(0);
-      this.setState({ error: "" });
+      this.setState({ error: "" })
     }
   };
 
@@ -49,4 +49,4 @@ class CurrencyInput extends Component {
     );
   }
 }
-export default CurrencyInput;
+export default CurrencyInput

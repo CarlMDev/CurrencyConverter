@@ -7,7 +7,7 @@ import Header from "./components/Header";
 
 class App extends Component {
   constructor(props) {
-    super(props);
+    super(props)
 
     this.handleSourceChange = this.handleSourceChange.bind(this);
     this.handleTargetChange = this.handleTargetChange.bind(this);
@@ -22,7 +22,7 @@ class App extends Component {
       sourceRate: 0,
       targetRate: 0,
       amountToConvert: 0
-    };
+    }
   }
 
   // Handles source currency change event.
@@ -33,13 +33,13 @@ class App extends Component {
         code +
         " rate: " +
         this.state.currencies[code]
-    );
+    )
     this.setState({
       type: "source",
       sourceCode: code,
       sourceRate: this.state.currencies[code]
-    });
-  };
+    })
+  }
 
   // Handles target currency change event.
   // This will update the UI based on the target currency chosen by the user
@@ -54,7 +54,7 @@ class App extends Component {
 
   handleInputAmountChange = amount => {
     this.setState({ amountToConvert: amount });
-  };
+  }
 
   // Retrieve exchange rated provided by the API.
   // This API was chosen for this project because unlimited API calls can be made at no charge.
@@ -65,20 +65,19 @@ class App extends Component {
         this.setState({
           isLoaded: true,
           currencies: json.rates
-        });
-      });
+        })
+      })
   }
 
   render() {
     var {
       isLoaded,
-      currencies,
       type,
       sourceCode,
       targetCode,
       amountToConvert,
       labels
-    } = this.state;
+    } = this.state
 
     var computedRate = this.computeRate();
 
@@ -88,7 +87,7 @@ class App extends Component {
           <h1>Currency Exchange</h1>
           <div>Loading...</div>
         </div>
-      );
+      )
     } else {
       return (
         <div>
@@ -157,47 +156,48 @@ class App extends Component {
       sourceRate,
       targetCode,
       targetRate
-    } = this.state;
-    let exchangeRate = 0;
+    } = this.state
+
+    let exchangeRate = 0
 
     // if a source currency is selected from the drop down
     if (type === "source") {
       if (sourceCode !== "EUR" && targetCode !== "EUR") {
-        exchangeRate = this.roundCurrency(targetRate / sourceRate);
+        exchangeRate = this.roundCurrency(targetRate / sourceRate)
       } else if (sourceCode === "EUR" && targetCode !== "EUR") {
-        exchangeRate = this.roundCurrency(targetRate);
+        exchangeRate = this.roundCurrency(targetRate)
       } else if (sourceCode !== "EUR" && targetCode === "EUR") {
-        exchangeRate = this.roundCurrency(1 / currencies[sourceCode]);
+        exchangeRate = this.roundCurrency(1 / currencies[sourceCode])
       } else if (sourceCode === "EUR" && targetCode === "EUR") {
-        exchangeRate = 1;
+        exchangeRate = 1
       }
     }
 
     // if a target currency is selected from the drop down
     else {
       if (targetCode !== "EUR" && sourceCode !== "EUR") {
-        exchangeRate = this.roundCurrency(targetRate / sourceRate);
+        exchangeRate = this.roundCurrency(targetRate / sourceRate)
       } else if (sourceCode === "EUR" && targetCode !== "EUR") {
-        exchangeRate = this.roundCurrency(currencies[targetCode]);
+        exchangeRate = this.roundCurrency(currencies[targetCode])
       } else if (sourceCode !== "EUR" && targetCode === "EUR") {
-        exchangeRate = this.roundCurrency(1 / currencies[sourceCode]);
+        exchangeRate = this.roundCurrency(1 / currencies[sourceCode])
       } else if (sourceCode === "EUR" && targetCode === "EUR") {
-        exchangeRate = 1;
+        exchangeRate = 1
       }
     }
 
     // console.log("computed rate: " + exchangeRate)
-    return exchangeRate;
+    return exchangeRate
   }
 
   // Rounds input to 2 decimal places
   roundCurrency(amount) {
-    return Math.round(amount * 100) / 100;
+    return Math.round(amount * 100) / 100
   }
 
   convertAmount(amount, exchange) {
-    return amount * exchange;
+    return amount * exchange
   }
 }
 
-export default App;
+export default App

@@ -2,7 +2,7 @@ import React, { Component } from "react";
 
 class CurrencySelector extends Component {
   constructor(props) {
-    super(props);
+    super(props)
 
     this.handleSelectorChange = this.handleSelectorChange.bind(this);
 
@@ -10,28 +10,28 @@ class CurrencySelector extends Component {
       selectorTitle: this.props.selectorTitle,
       currencyList: this.props.list,
       selectedCurrencyCode: ""
-    };
+    }
   }
 
   handleSelectorChange = e => {
     const selectedIndex = e.target.options.selectedIndex;
     const currencyKey = e.target.options[selectedIndex].getAttribute(
       "data-key"
-    );
+    )
 
     this.props.onCurrencyCodeChange(currencyKey);
 
     this.setState({
       selectedCurrencyValue: this.state.currencyList[e.target.key]
-    });
+    })
 
     // to avoid showing "choose" as currency
     if (e.target.value === "-- CHOOSE --") {
       this.setState({ selectedCurrencyCode: "" });
     } else {
-      this.setState({ selectedCurrencyCode: e.target.value });
+      this.setState({ selectedCurrencyCode: e.target.value })
     }
-  };
+  }
 
   render() {
     //this.setState(currencyList, this.props.list)
@@ -50,11 +50,10 @@ class CurrencySelector extends Component {
               {this.state.currencyList[key]}
             </option>
           ))}
-          ;
         </select>
       </div>
     );
   }
 }
 
-export default CurrencySelector;
+export default CurrencySelector
