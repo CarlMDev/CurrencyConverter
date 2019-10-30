@@ -1,4 +1,5 @@
 import React from "react";
+import formatCurrency from '../misc/formatter'
 function ExchangeRateDisplay(props) {
   var { sourceCode, targetCode, computedRate } = props;
   // console.log('Display ' + sourceCode + ' ' + targetCode + ' ' + computedRate)
@@ -10,8 +11,12 @@ function ExchangeRateDisplay(props) {
           <td></td>
           <td>
             <h2>
-              1 {" " + (sourceCode !== "-- CHOOSE --" ? sourceCode : "")}={" "}
-              {Number.isNaN(computedRate) ? 1 : computedRate + " " + targetCode}
+              {(sourceCode === null || targetCode === null ? '' :
+              formatCurrency(1, sourceCode)  + ' = ' +
+              (Number.isNaN(computedRate) ? formatCurrency(1, targetCode) 
+                : formatCurrency(computedRate, targetCode))) }
+
+              
             </h2>
           </td>
           <td></td>

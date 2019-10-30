@@ -16,9 +16,9 @@ class App extends Component {
       currencies: [],
       labels: require("./data/labels.json"),
       isLoaded: false,
-      type: "source",
-      sourceCode: "",
-      targetCode: "",
+      type: 'source',
+      sourceCode: '',
+      targetCode: '',
       sourceRate: 0,
       targetRate: 0,
       amountToConvert: 0
@@ -195,7 +195,7 @@ class App extends Component {
     return Math.round(amount * 100) / 100
   }
 
-  convertAmount(amount, exchange) {
+  convertAmount(amount, exchange, targetCode) {
     return amount * exchange
   }
 }

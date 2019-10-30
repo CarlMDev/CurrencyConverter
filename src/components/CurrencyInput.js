@@ -11,7 +11,7 @@ class CurrencyInput extends Component {
   }
 
   handleSourceAmountChange = e => {
-    const reGex = /^[0-9\b]+$/
+    const reGex = /([0-9]*\.*[0-9]{0,2})/
 
     if (isNaN(e.target.value)) {
       this.setState({ error: "Amount needs to be numeric only" });
@@ -38,7 +38,8 @@ class CurrencyInput extends Component {
           onChange={this.handleSourceAmountChange}
           placeholder={
             this.props.sourceCurrency !== "-- CHOOSE --" &&
-            this.props.sourceCurrency !== ""
+            this.props.sourceCurrency !== "" &&
+            this.props.sourceCurrency !== null
               ? "Amount in " + this.props.sourceCurrency
               : "Select currencies first"
           }
