@@ -1,16 +1,16 @@
-import React, { Component } from "react";
-import CurrencySelector from "./components/CurrencySelector";
-import ExchangeRateDisplay from "./components/ExchangeRateDisplay";
-import CurrencyInput from "./components/CurrencyInput";
-import ConvertedAmountDisplay from "./components/ConvertedAmountDisplay";
-import Header from "./components/Header";
+import React, { Component } from "react"
+import CurrencySelector from "./components/CurrencySelector"
+import ExchangeRateDisplay from "./components/ExchangeRateDisplay"
+import CurrencyInput from "./components/CurrencyInput"
+import ConvertedAmountDisplay from "./components/ConvertedAmountDisplay"
+import Header from "./components/Header"
 
 class App extends Component {
   constructor(props) {
     super(props)
 
-    this.handleSourceChange = this.handleSourceChange.bind(this);
-    this.handleTargetChange = this.handleTargetChange.bind(this);
+    this.handleSourceChange = this.handleSourceChange.bind(this)
+    this.handleTargetChange = this.handleTargetChange.bind(this)
 
     this.state = {
       currencies: [],
