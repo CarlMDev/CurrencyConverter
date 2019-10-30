@@ -37,11 +37,11 @@ class CurrencyInput extends Component {
           name="source-amount"
           onChange={this.handleSourceAmountChange}
           placeholder={
-            this.props.sourceCurrency !== "-- CHOOSE --" &&
-            this.props.sourceCurrency !== "" &&
             this.props.sourceCurrency !== null
-              ? "Amount in " + this.props.sourceCurrency
-              : "Select currencies first"
+              ? (this.props.sourceCurrency.length === 3 ? 
+                "Amount in " + this.props.sourceCurrency
+                : "Select currencies first")
+                : "Select currencies first"
           }
           className="form-control"
         />

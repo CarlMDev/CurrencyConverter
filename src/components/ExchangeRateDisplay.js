@@ -11,12 +11,11 @@ function ExchangeRateDisplay(props) {
           <td></td>
           <td>
             <h2>
-              {(sourceCode === null || targetCode === null ? '' :
-              formatCurrency(1, sourceCode)  + ' = ' +
+              { // only show exchange rate if both source  & target currencies are selected
+                (sourceCode === null || targetCode === null ? '' : 
+              formatCurrency(1, sourceCode)  + ' = ' + // source is 1 of whatever currency selected
               (Number.isNaN(computedRate) ? formatCurrency(1, targetCode) 
-                : formatCurrency(computedRate, targetCode))) }
-
-              
+                : formatCurrency(computedRate, targetCode))) }              
             </h2>
           </td>
           <td></td>
